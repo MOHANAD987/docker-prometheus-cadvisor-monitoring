@@ -120,6 +120,9 @@ Add targets to prometheus.yml:
 ```
 
 
+---
+
+
 📊 Metrics Verification & Screenshots
 For a full visual guide of the implementation steps, please refer to the screenshots/ directory. It includes:
 
@@ -129,6 +132,7 @@ For a full visual guide of the implementation steps, please refer to the screens
 
 ✅ Resource Usage: Monitoring of CPU/Memory via cAdvisor.
 
+---
 
 
 👨‍💻 Author
