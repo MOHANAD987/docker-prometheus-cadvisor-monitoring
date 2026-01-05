@@ -18,38 +18,38 @@ The goal of this project is to showcase real-world DevOps monitoring practices, 
 
 ---
 
-## 🏗️ Architecture Overview
+## 🏗️ Project Reference Architecture
+The system follows a **pull-based architecture** where Prometheus acts as the central aggregator.
 
 
 
 ```text
-+-------------------+       +---------------------+
-|   Python App      | <---> |   Prometheus Server |
-|  (Flask + Metrics)|       |  Metrics Collector |
-+-------------------+       +---------------------+
-          |
-          v
-+-------------------+
-|    cAdvisor       |
-| Docker Metrics    |
-+-------------------+
-          |
-          v
-+-------------------+
-|   Docker Engine   |
-+-------------------+
+       +---------------------------------------+
+       |           Prometheus Server           |
+       |       (Metrics Scraper & Storage)     |
+       +------------------+--------------------+
+                          ^
+                          | (Scrape HTTP /metrics)
+        __________________|__________________
+       |                  |                  |
++------v-------+  +-------v-------+  +-------v-------+
+|  Python App  |  |    cAdvisor   |  | Docker Engine |
+| (Custom Ind.)|  | (Cont. Stats) |  | (Daemon Ind.) |
++--------------+  +---------------+  +---------------+
 
-
-
+```
+---
 
 📂 Project Structure
-
+```
 docker-prometheus-cadvisor-python-app/
+│
+├── architecture/             # 🏗️ System Design Documentation
+│   └── architecture_view.md
 │
 ├── app/
 │   ├── app.py                # Flask application with Prometheus metrics
-│   ├── Dockerfile            # Container image definition
-│
+│   └── Dockerfile            # Container image definition
 │
 ├── scripts/
 │   ├── install_docker.sh     # Automated Docker installation
@@ -58,12 +58,14 @@ docker-prometheus-cadvisor-python-app/
 ├── prometheus/
 │   └── prometheus.yml        # Prometheus scrape configuration
 │
-├── README.md
+├── screenshots/              # 📸 Step-by-step execution screenshots
+│
+└── README.md
 
-
-
+---
 
 ⚙️ Technologies Used
+```
 Component,Technology
 Containerization,Docker
 Monitoring,Prometheus
@@ -71,44 +73,37 @@ Container Metrics,cAdvisor
 Application,Python (Flask)
 Metrics Client,prometheus_client
 OS,Ubuntu Linux
-
-
+```
+---
 
 🚀 Deployment Guide
 1️⃣ Install Docker
-Run the automation script to install Docker and configure user permissions:
+Run the automation script:
+```
 chmod +x scripts/install_docker.sh
 ./scripts/install_docker.sh
-
+```
 ⚠️ Note: Logout and login again to apply Docker group permissions.
-
-
-
+---
 2️⃣ Run cAdvisor
-Deploy cAdvisor to collect Docker container metrics:
+Deploy cAdvisor to collect container metrics:
+```
 chmod +x scripts/setup_cadvisor.sh
 ./scripts/setup_cadvisor.sh
-
-cAdvisor UI: http://<NODE-IP>:8080
-
-
-
-
+```
+UI: http://<NODE-IP>:8080
+---
 3️⃣ Build & Run the Python Application
-Navigate to the app directory and containerize the Flask application:
+```
 cd app
 docker build -t python-app .
 docker run -d -p 5000:5000 --name python-app
-
-Test App: http://<NODE-IP>:5000
-
-Metrics Endpoint: http://<NODE-IP>:5000/metrics
-
-
-
-
+```
+Metrics: http://<NODE-IP>:5000/metrics
+---
 4️⃣ Configure Prometheus
-Add the new targets to your prometheus.yml:
+Add targets to prometheus.yml:
+```
 - job_name: "cadvisor-node"
   static_configs:
     - targets: ["<NODE-IP>:8080"]
@@ -116,22 +111,21 @@ Add the new targets to your prometheus.yml:
 - job_name: "python-app"
   static_configs:
     - targets: ["<NODE-IP>:5000"]
+```
+---
 
+📊 Metrics Verification & Screenshots
+For a full visual guide of the implementation steps, please refer to the screenshots/ directory. It includes:
 
-Restart Prometheus:
-sudo systemctl restart prometheus
+✅ Target Connectivity: Confirmation of UP status for all services.
 
+✅ Custom Metrics: Real-time tracking of app_total_requests.
 
+✅ Resource Usage: Monitoring of CPU/Memory via cAdvisor.
 
-📊 Metrics Verification
-Open your Prometheus Web UI and execute the following query to see the custom metric:
-app_total_requests
-
-Each request to the / endpoint increases this counter.
-
-
-
-
+---
 
 👨‍💻 Author
-Mohannad Faisal  DevOps Engineer
+Mohannad Faisal DevOps Engineer
+
+
