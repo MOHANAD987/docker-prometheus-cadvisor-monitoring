@@ -38,7 +38,7 @@ The system follows a **pull-based architecture** where Prometheus acts as the ce
 +--------------+  +---------------+  +---------------+
 
 
-
+---
 📂 Project Structure
 
 ```docker-prometheus-cadvisor-python-app/
@@ -59,7 +59,7 @@ The system follows a **pull-based architecture** where Prometheus acts as the ce
 │
 ├── screenshots/              # 📸 Step-by-step execution screenshots
 │
-└── README.md```
+└── README.md
 
 
 ---
@@ -82,8 +82,10 @@ OS,Ubuntu Linux
 1️⃣ Install Docker
 Run the automation script:
 
-```chmod +x scripts/install_docker.sh
-./scripts/install_docker.sh```
+---
+chmod +x scripts/install_docker.sh
+./scripts/install_docker.sh
+---
 
 ⚠️ Note: Logout and login again to apply Docker group permissions.
 
