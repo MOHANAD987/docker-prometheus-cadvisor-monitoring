@@ -36,12 +36,13 @@ The system follows a **pull-based architecture** where Prometheus acts as the ce
 |  Python App  |  |    cAdvisor   |  | Docker Engine |
 | (Custom Ind.)|  | (Cont. Stats) |  | (Daemon Ind.) |
 +--------------+  +---------------+  +---------------+
-
+```
 
 ---
-📂 Project Structure
 
-```docker-prometheus-cadvisor-python-app/
+📂 Project Structure
+```text
+docker-prometheus-cadvisor-python-app/
 │
 ├── architecture/             # 🏗️ System Design Documentation
 │   └── architecture_view.md
@@ -60,13 +61,13 @@ The system follows a **pull-based architecture** where Prometheus acts as the ce
 ├── screenshots/              # 📸 Step-by-step execution screenshots
 │
 └── README.md
-
+```
 
 ---
 
 
 ⚙️ Technologies Used
-
+```text
 Component,Technology
 Containerization,Docker
 Monitoring,Prometheus
@@ -74,6 +75,7 @@ Container Metrics,cAdvisor
 Application,Python (Flask)
 Metrics Client,prometheus_client
 OS,Ubuntu Linux
+```
 
 
 ---
@@ -81,41 +83,41 @@ OS,Ubuntu Linux
 🚀 Deployment Guide
 1️⃣ Install Docker
 Run the automation script:
-
----
+```bash
 chmod +x scripts/install_docker.sh
 ./scripts/install_docker.sh
----
-
+```
 ⚠️ Note: Logout and login again to apply Docker group permissions.
+
 
 2️⃣ Run cAdvisor
 Deploy cAdvisor to collect container metrics:
-
-```chmod +x scripts/setup_cadvisor.sh
-./scripts/setup_cadvisor.sh```
-
+```bash
+chmod +x scripts/setup_cadvisor.sh
+./scripts/setup_cadvisor.sh
+```
 UI: http://<NODE-IP>:8080
 
+
 3️⃣ Build & Run the Python Application
-
-```cd app
+```bash
+cd app
 docker build -t python-app .
-docker run -d -p 5000:5000 --name python-app```
-
+docker run -d -p 5000:5000 --name python-app
+```
 Metrics: http://<NODE-IP>:5000/metrics
 
 4️⃣ Configure Prometheus
 Add targets to prometheus.yml:
-
-```- job_name: "cadvisor-node"
+```bash
+- job_name: "cadvisor-node"
   static_configs:
     - targets: ["<NODE-IP>:8080"]
 
 - job_name: "python-app"
   static_configs:
-    - targets: ["<NODE-IP>:5000"]```
-
+    - targets: ["<NODE-IP>:5000"]
+```
 
 
 📊 Metrics Verification & Screenshots
@@ -131,5 +133,7 @@ For a full visual guide of the implementation steps, please refer to the screens
 
 👨‍💻 Author
 Mohannad Faisal DevOps Engineer
+
+
 
 
