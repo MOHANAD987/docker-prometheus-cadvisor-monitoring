@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "cadvisor-node"
+    static_configs:
+      - targets: ["<CADVISOR-IP>:8080"]
+
+  - job_name: "python-app"
+    static_configs:
+      - targets: ["<PYTHON-APP-IP>:5000"]
+
